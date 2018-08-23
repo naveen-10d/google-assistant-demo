@@ -11,13 +11,18 @@ app.use(
 
 app.use(bodyParser.json());
 
-app.post("/webhook", function (req, res) {
-    var speech = req.body.result.metadata.intentName
-    console.log("speech>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", speech)
+app.post("/webhook", (req, res) => {
+    console.log("-------webhook activated---------")
+    var speech = req.body.result.metadata.intentName;
+    if(speech === 'Address and Location'){
+        console.log("<<<<<<<<<<<< First Intent >>>>>>>>>>>>")
+        var nameSlot = req.body.result.parameters.name;
+      console.log("nameSlot>>>>",nameSlot)
+    }
     return res.json({
-        speech: speech,
-        displayText: speech,
-        source: "webhook-echo-sample"
+        speech: 'please, tell me the name',
+        displayText: 'please, tell me the name',
+        source: "webhook-google-assistant-sample"
     });
 });
 
