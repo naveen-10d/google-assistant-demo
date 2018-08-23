@@ -11,35 +11,78 @@ app.use(
 
 app.use(bodyParser.json());
 
-app.post("/webhook", (req, res) => {
-    console.log("-------webhook activated---------")
-    var speech = req.body.result.metadata.intentName;
-    if (speech === 'Address and Location') {
-        console.log("<<<<<<<<<<<< First Intent >>>>>>>>>>>>")
-        var nameSlot = req.body.result.parameters.name;
-        console.log("nameSlot>>>>", nameSlot)
-    } else {
+// app.post("/webhook", (req, res) => {
+//     console.log("-------webhook activated---------")
+//     var speech = req.body.result.metadata.intentName;
+//     if (speech === 'Address and Location') {
+//         console.log("<<<<<<<<<<<< First Intent >>>>>>>>>>>>",speech)
+//         var nameSlot = req.body.result.parameters.name;
+//         console.log("nameSlot>>>>", nameSlot)
+//     } else {
+//         return res.json({
+//             speech: 'please, tell me the name',
+//             displayText: 'please, tell me the name',
+//             source: "webhook-google-assistant-sample"
+//         });
+//     }
+
+
+//     var data =
+//         req.body.result &&
+//             req.body.result.parameters &&
+//             req.body.result.parameters.facilities
+//             ? req.body.result.parameters.facilities
+//             : "Seems like some problem. Speak again.";
+//     console.log("speech>>>>>>>>>>>>>>>>>>.", data)
+//     return res.json({
+//         speech: 'please, tell me the name',
+//         displayText: 'please, tell me the name',
+//         source: "webhook-google-assistant-sample"
+//     });
+
+// });
+
+app.post('/webhook', (req, res) => {
+    var intentName = req.body.result.metadata.intentName;
+    if (intentName === 'Address and Location') {
+        console.log("ONE")
+        var bar = req.body.result.parameters.facilities
+            ? req.body.result.parameters.facilities
+            : "Seems like some problem. Speak again.";
+        console.log("bar>>>>", bar)
         return res.json({
-            speech: 'please, tell me the name',
-            displayText: 'please, tell me the name',
+            speech: 'near by 1 kilometer',
+            displayText: 'near by 1 kilometer',
             source: "webhook-google-assistant-sample"
         });
     }
-
-
-    var data =
-        req.body.result &&
-            req.body.result.parameters &&
-            req.body.result.parameters.facilities
-            ? req.body.result.parameters.facilities
+    else if (intentName === 'AGE Policy') {
+        console.log("TWO")
+        var age = req.body.result.parameters.criteria
+            ? req.body.result.parameters.criteria
             : "Seems like some problem. Speak again.";
-    console.log("speech>>>>>>>>>>>>>>>>>>.", data)
-    return res.json({
-        speech: 'please, tell me the name',
-        displayText: 'please, tell me the name',
-        source: "webhook-google-assistant-sample"
-    });
-
+        console.log("age>>>>", age)
+        return res.json({
+            speech: '18 and above',
+            displayText: '18 and above',
+            source: "webhook-google-assistant-sample"
+        });
+    }
+    else if (intentName === 'Charger') {
+        console.log("THREE")
+        var charger = req.body.result.parameters.item
+            ? req.body.result.parameters.item
+            : "Seems like some problem. Speak again.";
+        console.log("charger>>>>", charger)
+        return res.json({
+            speech: 'yup! I have',
+            displayText: 'yup! I have',
+            source: "webhook-google-assistant-sample"
+        });
+    }
+    else {
+        throw new Error('Invalid intent');
+    }
 });
 
 app.listen(process.env.PORT || 3000, function () {
