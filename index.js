@@ -42,19 +42,33 @@ app.use(bodyParser.json());
 
 // });
 
-app.post('/webhook', (req, res) => {
+app.post("/webhook", (req, res) => {
     var intentName = req.body.result.metadata.intentName;
+    var params = req.body.result.parameters;
     if (intentName === 'Address and Location') {
         console.log("ONE")
-        var bar = req.body.result.parameters.facilities
-            ? req.body.result.parameters.facilities
-            : "Seems like some problem. Speak again.";
-        console.log("bar>>>>", bar)
-        return res.json({
-            speech: 'near by 1 kilometer',
-            displayText: 'near by 1 kilometer',
-            source: "webhook-google-assistant-sample"
-        });
+        if (params.bar) {
+            console.log("params.bar %%%%%%", params.bar)
+            return res.json({
+                speech: 'bar is near by 1 kilometer',
+                displayText: 'bar is near by 1 kilometer',
+                source: "webhook-google-assistant-sample"
+            });
+        } else if (params.facilities) {
+            console.log("params.facilities %%%%%%", params.facilities)
+            return res.json({
+                speech: 'next street..slam gym avaliable',
+                displayText: 'next street..slam gym avaliable',
+                source: "webhook-google-assistant-sample"
+            });
+        } else {
+            console.log("-------Seems like some problem. Speak again-----------")
+            return res.json({
+                speech: 'Seems like some problem. Speak again.',
+                displayText: 'Seems like some problem. Speak again.',
+                source: "webhook-google-assistant-sample"
+            });
+        }
     }
     else if (intentName === 'AGE Policy') {
         console.log("TWO")
