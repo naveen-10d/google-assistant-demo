@@ -99,7 +99,7 @@ app.post("/webhook", (req, res) => {
                 source: "webhook-google-assistant-sample"
             });
         }
-    }else if (intentName === 'Reservation') {
+    } else if (intentName === 'Reservation') {
         console.log("SEVEN")
         if (params.reservationDate) {
             console.log("params.reservationDate%%%%%%", params.reservationDate)
@@ -109,8 +109,37 @@ app.post("/webhook", (req, res) => {
                 source: "webhook-google-assistant-sample"
             });
         }
-    }
-    else {
+    } else if (intentName === 'Rate Service') {
+        console.log("EIGHT")
+        if (params.rating) {
+            console.log("params.rating%%%%%%", params.rating)
+            return res.json({
+                speech: 'Yes.. Please send your feedack and queries',
+                displayText: 'Yes.. Please send your feedack and queries',
+                source: "webhook-google-assistant-sample"
+            });
+        }
+    } else if (intentName === 'Pet policy') {
+        console.log("NINE")
+        if (params.pets) {
+            console.log("params.pets%%%%%%", params.pets)
+            return res.json({
+                speech: 'Yes.. We allow pets',
+                displayText: 'Yes.. We allow pets',
+                source: "webhook-google-assistant-sample"
+            });
+        }
+    } else if (intentName === 'RESTART') {
+        console.log("TEN")
+        if (params.Proximity) {
+            console.log("params.Proximity%%%%%%", params.Proximity)
+            return res.json({
+                speech: 'your request has been loading...',
+                displayText: 'your request has been loading...',
+                source: "webhook-google-assistant-sample"
+            });
+        }
+    }else {
         throw new Error('Invalid intent');
     }
 });
